@@ -1,0 +1,117 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .navbar {
+    display: flex;
+    padding: 10px;
+    border: solid 1px rgb(0, 0, 0);
+  }
+  
+  .navbar a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    padding: 10px;
+    margin: 0 10px;
+    border: solid 1px rgb(0, 0, 0);
+  }
+
+  .navbar p {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    padding: 10px;
+    margin: 0 10px;
+  }
+.article-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border: solid 1px rgb(0, 0, 0);
+}
+
+.forming {
+  font-family: 'Arial', sans-serif;
+  color: rgb(0, 0, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.forming h1 {
+  color: #333;
+}
+
+.forming form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.forming form label {
+  font-weight: bold;
+}
+
+.forming form input[type="text"], form input[type="password"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+form input[type="submit"] {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007BFF;
+  color: white;
+  cursor: pointer;
+}
+
+ form input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.forming form input[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+  }
+  
+ .forming form input[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+
+.forming a {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.forming a:hover {
+  color: #0056b3;
+}
+
+.forming textarea{
+    width: 800px;
+    height: 230px;
+}
+
+.forming p {
+  color: red;
+}
+.article {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    border: solid 1px rgb(0, 0, 0);
+}
+  
+  
