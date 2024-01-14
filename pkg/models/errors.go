@@ -15,5 +15,4 @@ var (
 	NotFoundAnything         = errors.New("no data")
 	ValueMismatch            = errors.New("value is incorrect")
 	NoCatsSelected           = errors.New("no cats selected")
-	SignIsMismatch           = errors.New("sign is mismatched")
 )
