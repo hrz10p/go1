@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS users (
                        id VARCHAR PRIMARY KEY,
                        username VARCHAR UNIQUE,
                        email VARCHAR UNIQUE,
+                       rolestring VARCHAR,
                        password VARCHAR(60)
 );
 
@@ -44,3 +45,7 @@ INSERT INTO categories (name) VALUES
                                   ('Staff'),
                                   ('Researches');
 
+CREATE TABLE deps ( id INTEGER PRIMARY KEY AUTOINCREMENT, dep_name VARCHAR, staff_quantity INTEGER);
+
+INSERT INTO users (id, username, email, rolestring, password) VALUES
+('11fdc4ea-22ae-4656-b244-972630cc36f8', 'admin', 'admin@mail.ru', 'admin', '$2a$12$sqJoZPBnOiwWpMe2mczT6.B1JfCwerYA2fX7VF/RZrTTEDM6hyfqW');

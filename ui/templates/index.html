@@ -15,7 +15,13 @@
         {{if .Auth}}
             <p>Welcomee {{ .Username}}</p>
             <a href="/logout">Logout</a>
+            {{if eq .Role "teacher"}}
             <a href="/createPost">Create Post</a>
+            {{end}}
+            {{if eq .Role "admin"}}
+            <a href="/createPost">Create Post</a>
+            <a href="/admin">Admin</a>
+            {{end}}
             <a href="/contacts">Contacts</a>
             <div class="filter-container">
                 <form method="POST" action="/filtered">

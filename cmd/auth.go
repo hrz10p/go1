@@ -128,7 +128,6 @@ func (a *AuthHanlder) Registration(w http.ResponseWriter, r *http.Request) {
 		email := r.FormValue("email")
 		pass := r.FormValue("password")
 		passConf := r.FormValue("passwordConf")
-		fmt.Println(login, email, pass, passConf)
 		var errorMessages ErrorMessages
 
 		if validators.LengthRangeValidate(login, 2, 10) != nil {
@@ -164,7 +163,7 @@ func (a *AuthHanlder) Registration(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		_, err = a.Service.UserService.RegisterUser(models.User{Username: login, Email: email, Password: pass})
+		_, err = a.Service.UserService.RegisterUser(models.User{Username: login, Email: email, Password: pass, Role: "student"})
 
 		if err != nil {
 			switch err {
@@ -218,7 +217,6 @@ func (a *AuthHanlder) Registration(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *AuthHanlder) Logout(w http.ResponseWriter, r *http.Request) {
-	// Delete the cookie
 	cookie, err := cookies.GetCookie(r)
 	if err != nil {
 		logger.GetLogger().Error(err.Error())
@@ -226,7 +224,6 @@ func (a *AuthHanlder) Logout(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Delete the session in the database
 	err = a.Service.SessionService.DeleteSessionByID(cookie.Value)
 	if err != nil {
 		logger.GetLogger().Error("Failed to delete session in the database:")
@@ -234,9 +231,7 @@ func (a *AuthHanlder) Logout(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Delete the cookie
-	cookies.DeleteCookie(w) //TODO check if it works
+	cookies.DeleteCookie(w)
 
-	// Redirect to /
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

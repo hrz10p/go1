@@ -18,6 +18,7 @@ type PostHanlder struct {
 
 type page struct {
 	Auth     bool
+	Role     string
 	Username string
 	Cats     []models.Category
 	Posts    []views.PostView
@@ -109,6 +110,7 @@ func (p *PostHanlder) Index(w http.ResponseWriter, r *http.Request) {
 	if (user != models.User{}) {
 		data.Auth = true
 		data.Username = user.Username
+		data.Role = user.Role
 	}
 
 	err = tmpl.Execute(w, data)
