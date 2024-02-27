@@ -39,6 +39,15 @@ CREATE TABLE sessions (
                           FOREIGN KEY (uid) REFERENCES users(id) ON DELETE CASCADE
 );
 
+CREATE TABLE comments (
+                          id INTEGER PRIMARY KEY AUTOINCREMENT,
+                          uid VARCHAR,
+                          post_id INTEGER,
+                          content VARCHAR,
+                          FOREIGN KEY (uid) REFERENCES users(id) ON DELETE CASCADE,
+                          FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
+);
+
 
 INSERT INTO categories (name) VALUES
                                   ('Applicants'),

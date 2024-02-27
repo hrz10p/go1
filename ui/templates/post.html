@@ -20,7 +20,42 @@
         <p>Content : {{.Post.Content}}</p> <br>
         <p>Categories: {{range $index, $cat := .Post.Cats}}{{if $index}}, {{end}}{{.Name}}{{end}}</p>
     </div>
-   
+
+
+
+    <div class="comment-section">
+        {{if .Auth}}
+        <div class="comment_for_post">
+            <h2>Comments</h2>
+            <form id="commentForm" action="/submitComment" method="POST">
+                <input type="hidden" name="postID" value="{{.Post.Id}}">
+                <textarea name="content" class="content" id="content" cols="35" rows="8" maxlength="256"></textarea>
+                <button type="submit" >Create Comment</button>
+            </form>
+        </div>
+        {{else}}
+        <div class="comment_for_post">
+            <h2>Comments</h2>
+            <p>You must be logged in to create comment</p>
+        </div>
+        {{end}}
+        {{if .Comments}}
+        {{range .Comments}}
+        <div class="comment-container">
+            <p class="autor"> Author: {{.Author}}</p>
+            <p class="p_content">{{.Content}}</p>
+            {{if .CanDelete}}
+            <form action="/deleteComment" method="POST">
+                <input type="hidden" name="postID" value="{{$.Post.Id}}">
+                <input type="hidden" name="commentID" value="{{.ID}}">
+                <input type="submit" value="Delete Comment">
+            </form>
+            {{end}}
+            </div>
+            {{end}}
+            {{end}}
+        </div>
+        
 </body>
 
 </html>

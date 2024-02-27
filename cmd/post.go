@@ -25,8 +25,21 @@ type page struct {
 }
 
 type showPost struct {
-	Auth bool
-	Post views.PostView
+	Auth     bool
+	Post     views.PostView
+	Comments []views.CommentView
+}
+
+func (p *PostHanlder) convertCommentToView(comments []models.Comment) ([]views.CommentView, error) {
+	var v []views.CommentView
+	for _, val := range comments {
+		user, err := p.Service.UserService.GetUserByID(val.UID)
+		if err != nil {
+			return nil, err
+		}
+		v = append(v, views.CommentView{Author: user.Username, Content: val.Content, ID: val.ID, CanDelete: false})
+	}
+	return v, nil
 }
 
 func (p *PostHanlder) stringsToInts(str []string) ([]int, error) {
@@ -39,6 +52,31 @@ func (p *PostHanlder) stringsToInts(str []string) ([]int, error) {
 		ids = append(ids, num)
 	}
 	return ids, nil
+}
+
+func (p *PostHanlder) BanPage(w http.ResponseWriter, r *http.Request) {
+	file := "./ui/templates/banned.html"
+	tmpl, err := template.ParseFiles(file)
+	if err != nil {
+		http.Error(w, "Error parsing templates", 500)
+		return
+	}
+
+	user := getUserFromContext(r)
+
+	data := page{}
+
+	if (user != models.User{}) {
+		data.Auth = true
+		data.Username = user.Username
+	}
+
+	err = tmpl.Execute(w, data)
+	if err != nil {
+		logger.GetLogger().Warn(err.Error())
+		http.Error(w, "Error executing template", 500)
+		return
+	}
 }
 
 func (p *PostHanlder) convertPostToView(post models.PostWithCats) (views.PostView, error) {
@@ -220,9 +258,28 @@ func (p *PostHanlder) Post(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := showPost{
-		Post: postview,
+	comments, err := p.Service.CommentService.GetCommentsByPostID(postID)
+	if err != nil {
+		http.Error(w, "Cant load comments", http.StatusInternalServerError)
+		return
 	}
+	comviews, err := p.convertCommentToView(comments)
+	if err != nil {
+		http.Error(w, "Error converting comments", http.StatusInternalServerError)
+		return
+	}
+
+	for i, val := range comviews {
+		if val.Author == user.Username || user.Role == "admin" {
+			comviews[i].CanDelete = true
+		}
+	}
+
+	data := showPost{
+		Post:     postview,
+		Comments: comviews,
+	}
+
 	if (user != models.User{}) {
 		data.Auth = true
 	}

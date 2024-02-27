@@ -7,6 +7,7 @@ type Service struct {
 	PostService    PostService
 	SessionService SessionService
 	DepService     DepService
+	CommentService CommentService
 }
 
 func NewService(db *sql.DB) *Service {
@@ -15,5 +16,6 @@ func NewService(db *sql.DB) *Service {
 		PostService:    *NewPostService(db),
 		SessionService: *NewSessionService(db),
 		DepService:     *NewDepService(db),
+		CommentService: *NewCommentService(db),
 	}
 }

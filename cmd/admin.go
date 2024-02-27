@@ -82,3 +82,47 @@ func (a *AdminHanlder) DemoteUser(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/admin", http.StatusSeeOther)
 }
+
+func (a *AdminHanlder) Ban(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	err := r.ParseForm()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	userID := r.FormValue("id")
+	err = a.Service.UserService.UpdateUserRole(userID, "banned")
+	if err != nil {
+		http.Error(w, "Error deleting user", http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, "/admin", http.StatusSeeOther)
+}
+
+func (a *AdminHanlder) UNBan(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	err := r.ParseForm()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	userID := r.FormValue("id")
+	err = a.Service.UserService.UpdateUserRole(userID, "student")
+	if err != nil {
+		http.Error(w, "Error deleting user", http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, "/admin", http.StatusSeeOther)
+}
